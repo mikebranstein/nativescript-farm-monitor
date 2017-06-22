@@ -3,8 +3,13 @@
 <StackLayout class="page">
     <ListView [items]="weather" class="list-group">
         <ng-template let-item="item">
-            <Label [text]="item.Temperature"
-                class="list-group-item"></Label>
+            <StackLayout orientation="horizontal">
+                <Label text="{{ item.Temperature }}" class="list-group-item"></Label>
+                <Label [text]="item.Humidity" class="list-group-item"></Label>
+                <Label [text]="item.Pressure" class="list-group-item"></Label>
+                <Label text="{{ item.PublishDate | date:'h:mm a' }}" class="list-group-item"></Label>
+                <Label [text]="item.DeviceStateOfCharge" class="list-group-item"></Label>
+            </StackLayout>
         </ng-template>
     </ListView>
 </StackLayout>
