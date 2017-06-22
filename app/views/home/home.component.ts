@@ -16,9 +16,9 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void {
         this.weatherService.getWeather()
-            .subscribe(loadedWeather => {
+            .subscribe((loadedWeather) => {
                 loadedWeather.forEach((weatherObject) => {
-                    this.weather.unshift(weatherObject);
+                    this.weather.push(weatherObject);
                 });
             });
     }

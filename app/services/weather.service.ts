@@ -8,11 +8,6 @@ import { Weather } from "../models/weather";
 @Injectable()
 export class WeatherService {
 
-
-    // private data = new Array<Weather>(
-    //     { DeviceId: "farm-iot", PublishDate: new Date("6/20/2017 6:23:54 AM"), Humidity: 45.02, Temperature: 76.00, Pressure: 29.32, DeviceVoltage: 3.76, DeviceStateOfCharge: 77.45 }
-    // );
-
     constructor(private http: Http) { }
 
     getWeather() {
@@ -27,7 +22,7 @@ export class WeatherService {
         .map(res => res.json())
         .map(data => {
             let weatherData = [];
-            data.Result.forEach((weather) => {
+            data.forEach((weather) => {
                 weatherData.push(new Weather( 
                     weather.DeviceId, 
                     new Date(weather.PublishDate), 
@@ -44,6 +39,7 @@ export class WeatherService {
     }
 
     handleErrors(error: Response) {
+        console.log("Error...");
         console.log(JSON.stringify(error.json()));
         return Observable.throw(error);
     }
