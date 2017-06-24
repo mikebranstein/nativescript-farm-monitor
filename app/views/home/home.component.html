@@ -1,7 +1,8 @@
 <ActionBar title="Locust Hill Farm" class="action-bar">
 </ActionBar>
 <StackLayout class="page">
-    <ListView [items]="weather" class="list-group">
+    <Button (tap)="onTestTap()" text="test"></Button>
+    <ListView [items]="weather2" class="list-group">
         <ng-template let-item="item">
             <StackLayout orientation="horizontal">
                 <Label text="{{ item.Temperature }}" class="list-group-item"></Label>

@@ -11,9 +11,7 @@ export class WeatherService {
     constructor(private http: Http) { }
 
     getWeather() {
-       // return this.data;
-
-        let url = "https://farm-iot-function.azurewebsites.net/api/v1/weather?code=B0elr3aObzt4y7e48CJb9fQ4lgzmzQxjOa85cl1kc5F1R/8QehxcnA=="
+        let url = "https://farm-iot-function.azurewebsites.net/api/v1/weather?code=4zXOWZ0/hn6RTUG39TXaJB/HAc7DX62nPH5Aa6IL7riPz6wKTdtQLA=="
         let headers = new Headers();
 
         return this.http.get(url, {
