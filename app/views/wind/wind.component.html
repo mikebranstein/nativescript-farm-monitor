@@ -7,4 +7,6 @@
         <LinearAxis tkCartesianVerticalAxis></LinearAxis>
         <SplineSeries tkCartesianSeries [items]="windSource" categoryProperty="PublishDate" valueProperty="WindSpeedMPH"></SplineSeries>
     </RadCartesianChart>
+    <Label text="Last reading on {{ LastUpdatedDate | date:'EEE MMM d h:mm a' }}"></Label>
+    <Label text="{{ WindSpeed }} MPH"></Label>
 </StackLayout>

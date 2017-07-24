@@ -16,8 +16,11 @@ import { CouchbaseService } from "../../services/couchbase.service";
 export class WindComponent implements OnInit {
 
     windData: Array<Wind> = [];
+    LastUpdatedDate: Date;
+    WindSpeed: number;
     private wind: ObservableArray<Wind>;
     private windDatabase: any;
+    private weatherDatabase: any;
     minRange: Date;
     maxRange: Date;
 
@@ -28,6 +31,7 @@ export class WindComponent implements OnInit {
         private couchbaseService: CouchbaseService) { 
         
             this.windDatabase = couchbaseService.getWindDatabase();
+            this.weatherDatabase = couchbaseService.getWeatherDatabase();
         }
 
     ngOnInit(): void {
@@ -37,6 +41,18 @@ export class WindComponent implements OnInit {
 
         this.refresh();
         this.wind = new ObservableArray(this.windData);
+
+        let weather = 
+            this.weatherDatabase
+                .executeQuery("weather")
+                .sort(function(a,b) {
+                    return new Date(b.PublishDate).getTime() - new Date(a.PublishDate).getTime();
+                });
+        if (weather.length > 0) {
+            let w = weather[0];
+            this.LastUpdatedDate = new Date(w.PublishDate);
+            this.WindSpeed = w.WindSpeedMPH;
+        }
     }
 
     get windSource(): ObservableArray<Wind> {

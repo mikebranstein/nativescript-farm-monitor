@@ -52,7 +52,6 @@ export class InitComponent implements OnInit {
         // load initial wind data
         count = this.windDatabase.executeQuery("wind").length;
         if (count === 0) {
-            console.log("refreshing wind data");
             this.weatherService.getWindSpeedByHour()
                 .subscribe((data) => {
                     data.forEach((x) => {

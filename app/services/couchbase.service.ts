@@ -11,6 +11,8 @@ export class CouchbaseService {
 
     init() {
         this.weatherDatabase = new Couchbase("weather");
+        this.weatherDatabase.destroyDatabase();
+        this.weatherDatabase = new Couchbase("weather");
         this.weatherDatabase.createView("weather", "1", (document, emitter) => {
             emitter.emit(document._id, document);
         });
