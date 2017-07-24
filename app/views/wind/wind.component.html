@@ -1,4 +1,5 @@
-    <RadCartesianChart tkExampleTitle tkToggleNavButton>
+<StackLayout>
+    <RadCartesianChart tkExampleTitle tkToggleNavButton height="200">
         <DateTimeContinuousAxis tkCartesianHorizontalAxis 
             majorStep="Hour"
             [minimum]="minRange" [maximum]="maxRange" >
@@ -6,3 +7,4 @@
         <LinearAxis tkCartesianVerticalAxis></LinearAxis>
         <SplineSeries tkCartesianSeries [items]="windSource" categoryProperty="PublishDate" valueProperty="WindSpeedMPH"></SplineSeries>
     </RadCartesianChart>
+</StackLayout>
