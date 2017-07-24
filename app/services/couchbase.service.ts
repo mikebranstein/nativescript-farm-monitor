@@ -4,19 +4,30 @@ import { Couchbase } from "nativescript-couchbase";
 @Injectable()
 export class CouchbaseService {
 
-    private database: any;
+    private weatherDatabase: any;
+    private windDatabase: any;
 
     constructor() { }
 
     init() {
-        this.database = new Couchbase("farmiot-database");
- 
-        this.database.createView("weather", "1", (document, emitter) => {
+        this.weatherDatabase = new Couchbase("weather");
+        this.weatherDatabase.createView("weather", "1", (document, emitter) => {
+            emitter.emit(document._id, document);
+        });
+
+        this.windDatabase = new Couchbase("wind");
+        this.windDatabase.destroyDatabase();
+        this.windDatabase = new Couchbase("wind");
+        this.windDatabase.createView("wind", "1", (document, emitter) => {
             emitter.emit(document._id, document);
         });
     }
 
-    getDatabase() {
-        return this.database;
+    getWeatherDatabase() {
+        return this.weatherDatabase;
+    }
+
+    getWindDatabase() {
+        return this.windDatabase;
     }
 }

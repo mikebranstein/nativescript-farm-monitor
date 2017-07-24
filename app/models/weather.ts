@@ -6,6 +6,7 @@ export class Weather {
         public Humidity: number,
         public Temperature: number,
         public Pressure: number,
+        public WindSpeedMPH: number,
         public DeviceVoltage: number,
         public DeviceStateOfCharge: number
     ) {}

@@ -9,6 +9,9 @@ import { WeatherService } from "./services/weather.service";
 import { CouchbaseService } from "./services/couchbase.service";
 import { InitComponent } from "./views/init/init.component";
 import { HomeComponent } from "./views/home/home.component";
+import { WindComponent } from "./views/wind/wind.component";
+
+import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/angular";
 
 @NgModule({
     bootstrap: [
@@ -17,12 +20,14 @@ import { HomeComponent } from "./views/home/home.component";
     imports: [
         NativeScriptModule,
         AppRoutingModule,
-        NativeScriptHttpModule
+        NativeScriptHttpModule,
+        NativeScriptUIChartModule
     ],
     declarations: [
         AppComponent,
         InitComponent,
-        HomeComponent
+        HomeComponent,
+        WindComponent
     ],
     providers: [
         WeatherService,

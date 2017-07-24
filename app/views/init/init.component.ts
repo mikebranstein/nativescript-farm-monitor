@@ -12,7 +12,8 @@ import { CouchbaseService } from "../../services/couchbase.service";
 })
 export class InitComponent implements OnInit {
 
-    private database: any;
+    private weatherDatabase: any;
+    private windDatabase: any;
 
     constructor(
         private ngZone: NgZone,
@@ -20,39 +21,52 @@ export class InitComponent implements OnInit {
         private couchbaseService: CouchbaseService,
         private routerExtensions: RouterExtensions) { 
             
-            this.database = couchbaseService.getDatabase();
+            this.weatherDatabase = couchbaseService.getWeatherDatabase();
+            this.windDatabase = couchbaseService.getWindDatabase();
         }
 
     ngOnInit() : void {
 
         // load initial weather data
-        var count = this.database.executeQuery("weather").length;
+        let count = this.weatherDatabase.executeQuery("weather").length;
         if (count === 0) {
             this.weatherService.getWeather()
                 .subscribe((data) => {
-                    let i = 0;
                     data.forEach((weatherObject) => {
-                        i++;
-                        console.log("creating " + i);
-                        this.database.createDocument(
+                        this.weatherDatabase.createDocument(
                             {
                                 "DeviceId": weatherObject.DeviceId,
                                 "PublishDate": weatherObject.PublishDate.toString(),
                                 "Humidity": weatherObject.Humidity,
                                 "Temperature": weatherObject.Temperature,
                                 "Pressure": weatherObject.Pressure,
+                                "WindSpeedMPH": weatherObject.WindSpeedMPH,
                                 "DeviceVoltage": weatherObject.DeviceVoltage,
                                 "DeviceStateOfCharge": weatherObject.DeviceStateOfCharge
                             }
                         );
                     });
-
-                    console.log("navigating to home...")
-                    this.routerExtensions.navigate(["home"]);
                 });
         }
-        else {
-            this.routerExtensions.navigate(["home"]);
+
+        // load initial wind data
+        count = this.windDatabase.executeQuery("wind").length;
+        if (count === 0) {
+            console.log("refreshing wind data");
+            this.weatherService.getWindSpeedByHour()
+                .subscribe((data) => {
+                    data.forEach((x) => {
+                        this.windDatabase.createDocument(
+                            {
+                                "DeviceId": x.DeviceId,
+                                "PublishDate": x.PublishDate.toString(),
+                                "WindSpeedMPH": x.WindSpeedMPH
+                            }
+                        );
+                    });
+                });
         }
+
+        this.routerExtensions.navigate(["home"]);
     }
 }

@@ -1,14 +1,14 @@
 <ActionBar title="Locust Hill Farm" class="action-bar">
 </ActionBar>
 <StackLayout class="page">
-    <Button (tap)="onTestTap()" text="test"></Button>
+    <Button class="btn" text="Wind" (tap)="onWindTap()"></Button>
     <ListView [items]="weather2" class="list-group">
         <ng-template let-item="item">
             <StackLayout orientation="horizontal">
+                <Label text="{{ item.PublishDate | date:'h:mm a' }}" class="list-group-item"></Label>
                 <Label text="{{ item.Temperature }}" class="list-group-item"></Label>
                 <Label [text]="item.Humidity" class="list-group-item"></Label>
                 <Label [text]="item.Pressure" class="list-group-item"></Label>
-                <Label text="{{ item.PublishDate | date:'h:mm a' }}" class="list-group-item"></Label>
                 <Label [text]="item.DeviceStateOfCharge" class="list-group-item"></Label>
             </StackLayout>
         </ng-template>

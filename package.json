@@ -4,7 +4,7 @@
 	"readme": "NativeScript Application",
 	"repository": "<fill-your-repository-here>",
 	"nativescript": {
-		"id": "com.brosteins.farmmonitor",
+		"id": "com.brosteins.locusthillfarm",
 		"tns-ios": {
 			"version": "3.1.0"
 		}

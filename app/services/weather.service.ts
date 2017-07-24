@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 
 import { Weather } from "../models/weather";
+import { Wind } from "../models/wind";
 
 @Injectable()
 export class WeatherService {
@@ -27,11 +28,34 @@ export class WeatherService {
                     weather.Humidity, 
                     weather.Temperature, 
                     weather.Pressure, 
+                    weather.WindSpeedMPH,
                     weather.DeviceVoltage, 
                     weather.DeviceStateOfCharge 
                 ));
             });
             return weatherData;
+        })
+        .catch(this.handleErrors);
+    }
+
+    getWindSpeedByHour() {
+        let url = "https://farm-iot-function.azurewebsites.net/api/v2/wind?code=d8GBqKpQ9Jpzg/KXlJFBxcMandYQQkfOWktUAuxRkhV2aNyr9AbnVA=="
+        let headers = new Headers();
+
+        return this.http.get(url, {
+            headers: headers
+        })
+        .map(res => res.json())
+        .map(data => {
+            let windData = [];
+            data.forEach((x) => {
+                windData.push(new Wind( 
+                    x.DeviceId, 
+                    new Date(x.PublishDate), 
+                    x.AverageWindSpeedMPH,
+                ));
+            });
+            return windData;
         })
         .catch(this.handleErrors);
     }

@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from "@angular/core";
 import { Location } from "@angular/common";
+import { RouterExtensions } from "nativescript-angular/router";
 
 import { Weather } from "../../models/weather";
 import { WeatherService } from "../../services/weather.service";
@@ -19,10 +20,11 @@ export class HomeComponent implements OnInit {
     constructor(
         private ngZone: NgZone,
         private location: Location,
+        private routerExtensions: RouterExtensions,
         private weatherService: WeatherService, 
         private couchbaseService: CouchbaseService) { 
             
-            this.database = couchbaseService.getDatabase();
+            this.database = couchbaseService.getWeatherDatabase();
 
             this.database.addDatabaseChangeListener((changes) => {
                 let changeIndex;
@@ -54,6 +56,11 @@ export class HomeComponent implements OnInit {
         //             this.weather.push(weatherObject);
         //         });
         //     });
+    }
+
+    onWindTap(): void {
+        console.log("navigating to wind");
+        this.routerExtensions.navigate(["wind"]);
     }
 
     onTestTap(): void {
