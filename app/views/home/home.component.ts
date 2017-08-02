@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
         private weatherService: WeatherService, 
         private couchbaseService: CouchbaseService) { 
             
-            this.database = couchbaseService.getWeatherDatabase();
+            //this.database = couchbaseService.getWeatherDatabase();
 
             this.database.addDatabaseChangeListener((changes) => {
                 let changeIndex;

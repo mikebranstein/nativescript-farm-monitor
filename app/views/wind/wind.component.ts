@@ -30,8 +30,8 @@ export class WindComponent implements OnInit {
         private weatherService: WeatherService, 
         private couchbaseService: CouchbaseService) { 
         
-            this.windDatabase = couchbaseService.getWindDatabase();
-            this.weatherDatabase = couchbaseService.getWeatherDatabase();
+            //this.windDatabase = couchbaseService.getWindDatabase();
+            //this.weatherDatabase = couchbaseService.getWeatherDatabase();
         }
 
     ngOnInit(): void {

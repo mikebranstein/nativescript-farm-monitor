@@ -8,8 +8,7 @@ import { AppComponent } from "./app.component";
 import { WeatherService } from "./services/weather.service";
 import { CouchbaseService } from "./services/couchbase.service";
 import { InitComponent } from "./views/init/init.component";
-import { HomeComponent } from "./views/home/home.component";
-import { WindComponent } from "./views/wind/wind.component";
+import { DashboardComponent } from "./views/dashboard/dashboard.component";
 
 import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/angular";
 
@@ -26,8 +25,7 @@ import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/ang
     declarations: [
         AppComponent,
         InitComponent,
-        HomeComponent,
-        WindComponent
+        DashboardComponent
     ],
     providers: [
         WeatherService,

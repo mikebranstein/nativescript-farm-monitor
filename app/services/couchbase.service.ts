@@ -4,32 +4,33 @@ import { Couchbase } from "nativescript-couchbase";
 @Injectable()
 export class CouchbaseService {
 
-    private weatherDatabase: any;
-    private windDatabase: any;
+    private currentWeatherDatabase: any;
+    private aggregateWeatherDatabase: any;
 
     constructor() { }
 
     init() {
-        this.weatherDatabase = new Couchbase("weather");
-        this.weatherDatabase.destroyDatabase();
-        this.weatherDatabase = new Couchbase("weather");
-        this.weatherDatabase.createView("weather", "1", (document, emitter) => {
+        // current weather db
+        this.currentWeatherDatabase = new Couchbase("current");
+        this.currentWeatherDatabase.destroyDatabase();
+        this.currentWeatherDatabase = new Couchbase("current");
+        this.currentWeatherDatabase.createView("weather", "1", (document, emitter) => {
             emitter.emit(document._id, document);
         });
 
-        this.windDatabase = new Couchbase("wind");
-        this.windDatabase.destroyDatabase();
-        this.windDatabase = new Couchbase("wind");
-        this.windDatabase.createView("wind", "1", (document, emitter) => {
+        this.aggregateWeatherDatabase = new Couchbase("aggregate");
+        this.aggregateWeatherDatabase.destroyDatabase();
+        this.aggregateWeatherDatabase = new Couchbase("aggregate");
+        this.aggregateWeatherDatabase.createView("weather", "1", (document, emitter) => {
             emitter.emit(document._id, document);
         });
     }
 
-    getWeatherDatabase() {
-        return this.weatherDatabase;
+    getCurrentWeatherDatabase() {
+        return this.currentWeatherDatabase;
     }
 
-    getWindDatabase() {
-        return this.windDatabase;
+    getAggregateWeatherDatabase() {
+        return this.aggregateWeatherDatabase;
     }
 }

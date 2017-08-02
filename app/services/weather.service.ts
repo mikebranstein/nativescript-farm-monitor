@@ -3,16 +3,16 @@ import { Http, Headers, Response } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 
-import { Weather } from "../models/weather";
-import { Wind } from "../models/wind";
+import { MomentaryWeather } from "../models/momentaryWeather";
+import { AggregateWeather } from "../models/aggregateWeather";
 
 @Injectable()
 export class WeatherService {
 
     constructor(private http: Http) { }
 
-    getWeather() {
-        let url = "https://farm-iot-function.azurewebsites.net/api/v2/weather?code=S7JQc3fpbCthQVSD8lO2jFHWF04dgLCFIlPWi062hEVqy6ruc8UGCQ=="
+    getCurrentWeather() {
+        let url = "https://farm-iot-function.azurewebsites.net/api/v3/CurrentWeather?code=QjVrhGFBU1V3nY5gvP6vRVSP2QhEeQnPgAUmrDLesZ8K2WQSNNSWBQ=="
         let headers = new Headers();
 
         return this.http.get(url, {
@@ -20,47 +20,66 @@ export class WeatherService {
         })
         .map(res => res.json())
         .map(data => {
-            let weatherData = [];
-            data.forEach((weather) => {
-                weatherData.push(new Weather( 
-                    weather.DeviceId, 
-                    new Date(weather.PublishDate), 
-                    weather.Humidity, 
-                    weather.Temperature, 
-                    weather.Pressure, 
-                    weather.WindSpeedMPH,
-                    weather.DeviceVoltage, 
-                    weather.DeviceStateOfCharge 
-                ));
-            });
-            return weatherData;
-        })
-        .catch(this.handleErrors);
-    }
-
-    getWindSpeedByHour() {
-        let url = "https://farm-iot-function.azurewebsites.net/api/v2/wind?code=d8GBqKpQ9Jpzg/KXlJFBxcMandYQQkfOWktUAuxRkhV2aNyr9AbnVA=="
-        let headers = new Headers();
-
-        return this.http.get(url, {
-            headers: headers
-        })
-        .map(res => res.json())
-        .map(data => {
-            let windData = [];
+            let momentaryWeatherData = [];
             data.forEach((x) => {
-                windData.push(new Wind( 
+                momentaryWeatherData.push(new MomentaryWeather( 
                     x.DeviceId, 
                     new Date(x.PublishDate), 
-                    x.AverageWindSpeedMPH,
+                    x.Humidity, 
+                    x.Temperature, 
+                    x.Pressure, 
+                    x.SoilMoisture,
+                    x.SoilTemperature,
+                    x.WindSpeedMPH,
+                    x.WindDirection,
+                    x.RainInInches,
+                    x.DeviceVoltage, 
+                    x.DeviceStateOfCharge 
                 ));
             });
-            return windData;
+            return momentaryWeatherData;
         })
         .catch(this.handleErrors);
     }
 
-    handleErrors(error: Response) {
+    getWeatherByHour() {
+        return this.getWeather("hour");
+    }
+
+    private getWeather(byTimeFrame: string) {
+        let url = "https://farm-iot-function.azurewebsites.net/api/v3/Weather?code=hGBdt6Frr3aFouwid4ofm3CINSlVoSPsID1AKcaiaTZpWzH5T0mC9w==&by=" + byTimeFrame; 
+        let headers = new Headers();
+
+        return this.http.get(url, {
+            headers: headers
+        })
+        .map(res => res.json())
+        .map(data => {
+            let aggregateWeatherData = [];
+            data.forEach((x) => {
+                aggregateWeatherData.push(new AggregateWeather( 
+                    x.DeviceId, 
+                    new Date(x.PublishDate), 
+                    x.AverageHumidity, 
+                    x.AverageTemperature, 
+                    x.AveragePressure, 
+                    x.AverageSoilMoisture,
+                    x.AverageSoilTemperature,
+                    x.AverageWindSpeedMPH,
+                    x.AverageWindDirection,
+                    x.RainInInches,
+                    x.AverageDeviceVoltage, 
+                    x.AverageDeviceStateOfCharge,
+                    x.MinDeviceStateOfCharge,
+                    x.MaxDeviceStateOfCharge
+                ));
+            });
+            return aggregateWeatherData;
+        })
+        .catch(this.handleErrors);
+    }
+
+    private handleErrors(error: Response) {
         console.log("Error...");
         console.log(JSON.stringify(error.json()));
         return Observable.throw(error);

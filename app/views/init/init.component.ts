@@ -12,60 +12,75 @@ import { CouchbaseService } from "../../services/couchbase.service";
 })
 export class InitComponent implements OnInit {
 
-    private weatherDatabase: any;
-    private windDatabase: any;
+    private currentWeatherDatabase: any;
+    private aggregateWeatherDatabase: any;
 
     constructor(
         private ngZone: NgZone,
         private weatherService: WeatherService, 
         private couchbaseService: CouchbaseService,
         private routerExtensions: RouterExtensions) { 
-            
-            this.weatherDatabase = couchbaseService.getWeatherDatabase();
-            this.windDatabase = couchbaseService.getWindDatabase();
+
+            this.currentWeatherDatabase = couchbaseService.getCurrentWeatherDatabase();
+            this.aggregateWeatherDatabase = couchbaseService.getAggregateWeatherDatabase();
         }
 
     ngOnInit() : void {
 
-        // load initial weather data
-        let count = this.weatherDatabase.executeQuery("weather").length;
+        // load current weather data
+        let count = this.currentWeatherDatabase.executeQuery("weather").length;
         if (count === 0) {
-            this.weatherService.getWeather()
-                .subscribe((data) => {
-                    data.forEach((weatherObject) => {
-                        this.weatherDatabase.createDocument(
-                            {
-                                "DeviceId": weatherObject.DeviceId,
-                                "PublishDate": weatherObject.PublishDate.toString(),
-                                "Humidity": weatherObject.Humidity,
-                                "Temperature": weatherObject.Temperature,
-                                "Pressure": weatherObject.Pressure,
-                                "WindSpeedMPH": weatherObject.WindSpeedMPH,
-                                "DeviceVoltage": weatherObject.DeviceVoltage,
-                                "DeviceStateOfCharge": weatherObject.DeviceStateOfCharge
-                            }
-                        );
-                    });
-                });
-        }
-
-        // load initial wind data
-        count = this.windDatabase.executeQuery("wind").length;
-        if (count === 0) {
-            this.weatherService.getWindSpeedByHour()
+            this.weatherService.getCurrentWeather()
                 .subscribe((data) => {
                     data.forEach((x) => {
-                        this.windDatabase.createDocument(
+                        this.currentWeatherDatabase.createDocument(
                             {
                                 "DeviceId": x.DeviceId,
                                 "PublishDate": x.PublishDate.toString(),
-                                "WindSpeedMPH": x.WindSpeedMPH
+                                "Humidity": x.Humidity,
+                                "Temperature": x.Temperature,
+                                "Pressure": x.Pressure,
+                                "SoilMoisture": x.SoilMoisture,
+                                "SoilTemperature": x.SoilTemperature,
+                                "WindSpeedMPH": x.WindSpeedMPH,
+                                "WindDirection": x.WindDirection,
+                                "RainInInches": x.RainInInches,
+                                "DeviceVoltage": x.DeviceVoltage,
+                                "DeviceStateOfCharge": x.DeviceStateOfCharge
                             }
                         );
                     });
                 });
         }
 
-        this.routerExtensions.navigate(["home"]);
+        // load aggregate weather data, at first by hour
+        count = this.aggregateWeatherDatabase.executeQuery("weather").length;
+        if (count === 0) {
+            this.weatherService.getWeatherByHour()
+                .subscribe((data) => {
+                    data.forEach((x) => {
+                        this.aggregateWeatherDatabase.createDocument(
+                            {
+                                "DeviceId": x.DeviceId,
+                                "PublishDate": x.PublishDate.toString(),
+                                "AverageHumidity": x.AverageHumidity,
+                                "AverageTemperature": x.AverageTemperature,
+                                "AveragePressure": x.AveragePressure,
+                                "AverageSoilMoisture": x.AverageSoilMoisture,
+                                "AverageSoilTemperature": x.AverageSoilTemperature,
+                                "AverageWindSpeedMPH": x.AverageWindSpeedMPH,
+                                "AverageWindDirection": x.AverageWindDirection,
+                                "RainInInches": x.RainInInches,
+                                "AverageDeviceVoltage": x.AverageDeviceVoltage,
+                                "AverageDeviceStateOfCharge": x.AverageDeviceStateOfCharge,
+                                "MinDeviceStateOfChargee": x.MinDeviceStateOfCharge,
+                                "MaxDeviceStateOfCharge": x.MaxDeviceStateOfCharge 
+                            }
+                        );
+                    });
+                });
+        }
+
+        this.routerExtensions.navigate(["dashboard"]);
     }
 }
