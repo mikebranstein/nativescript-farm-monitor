@@ -35,7 +35,6 @@ export class InitComponent implements OnInit {
             this.weatherService.getCurrentWeather()
                 .subscribe((data) => {
                     data.forEach((x) => {
-                        console.log(JSON.stringify(x));
                         this.currentWeatherDatabase.createDocument(
                             {
                                 "DeviceId": x.DeviceId,
@@ -55,7 +54,6 @@ export class InitComponent implements OnInit {
                     });
                 });
         }
-        console.log("now loading aggregates");
 
         // load aggregate weather data, at first by hour
         count = this.aggregateWeatherDatabase.executeQuery("weather").length;

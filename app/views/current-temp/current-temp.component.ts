@@ -26,7 +26,7 @@ export class CurrentTemperatureComponent implements OnInit {
             this.currentWeatherDatabase = couchbaseService.getCurrentWeatherDatabase();
 
             this.currentWeatherDatabase.addDatabaseChangeListener((changes) => {
-                let changeIndex;
+                console.log("found change");
                 for (var i = 0; i < changes.length; i++) {
                     let documentId = changes[i].getDocumentId();
                     let document = this.currentWeatherDatabase.getDocument(documentId);
