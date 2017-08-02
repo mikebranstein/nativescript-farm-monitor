@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
+import { NavigationOptions } from "nativescript-angular/router/ns-location-strategy"; 
 
 import { Weather } from "../../models/weather";
 import { WeatherService } from "../../services/weather.service";
@@ -8,7 +9,8 @@ import { CouchbaseService } from "../../services/couchbase.service";
 @Component({
     selector: "ns-init",
     moduleId: module.id,
-    templateUrl: "./init.component.html"
+    templateUrl: "./init.component.html",
+    styleUrls: ["./init.component.css"]
 })
 export class InitComponent implements OnInit {
 
@@ -33,6 +35,7 @@ export class InitComponent implements OnInit {
             this.weatherService.getCurrentWeather()
                 .subscribe((data) => {
                     data.forEach((x) => {
+                        console.log(JSON.stringify(x));
                         this.currentWeatherDatabase.createDocument(
                             {
                                 "DeviceId": x.DeviceId,
@@ -52,6 +55,7 @@ export class InitComponent implements OnInit {
                     });
                 });
         }
+        console.log("now loading aggregates");
 
         // load aggregate weather data, at first by hour
         count = this.aggregateWeatherDatabase.executeQuery("weather").length;
@@ -81,6 +85,9 @@ export class InitComponent implements OnInit {
                 });
         }
 
-        this.routerExtensions.navigate(["dashboard"]);
+        let options: NavigationOptions = { 
+            clearHistory: true               
+        };    
+        this.routerExtensions.navigate(["dashboard"], options);
     }
 }

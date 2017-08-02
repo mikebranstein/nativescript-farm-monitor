@@ -9,6 +9,7 @@ import { WeatherService } from "./services/weather.service";
 import { CouchbaseService } from "./services/couchbase.service";
 import { InitComponent } from "./views/init/init.component";
 import { DashboardComponent } from "./views/dashboard/dashboard.component";
+import { CurrentTemperatureComponent } from "./views/current-temp/current-temp.component";
 
 import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/angular";
 
@@ -25,7 +26,8 @@ import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/ang
     declarations: [
         AppComponent,
         InitComponent,
-        DashboardComponent
+        DashboardComponent,
+        CurrentTemperatureComponent
     ],
     providers: [
         WeatherService,

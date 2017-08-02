@@ -1,0 +1,19 @@
+.wrapper {
+    margin-top: 20;
+    margin-bottom: 20;
+}
+
+Label {
+    text-align: center;
+    color: white;
+    font-family: HelveticaNeueLTPro-UltLt;
+}
+
+.heading {
+    font-size: 32;
+}
+
+.value {
+    font-size: 80;
+    margin-top: 15;
+}
