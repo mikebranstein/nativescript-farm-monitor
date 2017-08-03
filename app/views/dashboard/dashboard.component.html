@@ -1,7 +1,8 @@
-    <PullToRefresh (refresh)="refresh($event)" class="base">
-<ScrollView>
+<PullToRefresh (refresh)="refresh($event)" class="base">
+    <ScrollView>
         <StackLayout> 
-            <ns-current-temp></ns-current-temp>
+            <ns-temperature-widget></ns-temperature-widget>
+            <ns-humidity-widget></ns-humidity-widget>
         </StackLayout>
-</ScrollView>
-        </PullToRefresh>
+    </ScrollView>
+</PullToRefresh>

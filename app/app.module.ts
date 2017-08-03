@@ -9,7 +9,8 @@ import { WeatherService } from "./services/weather.service";
 import { CouchbaseService } from "./services/couchbase.service";
 import { InitComponent } from "./views/init/init.component";
 import { DashboardComponent } from "./views/dashboard/dashboard.component";
-import { CurrentTemperatureComponent } from "./views/current-temp/current-temp.component";
+import { HumidityWidgetComponent } from "./views/widgets/humidity/humidity-widget.component";
+import { TemperatureWidgetComponent } from "./views/widgets/temperature/temperature-widget.component";
 
 import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/angular";
 
@@ -27,7 +28,8 @@ import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/ang
         AppComponent,
         InitComponent,
         DashboardComponent,
-        CurrentTemperatureComponent
+        HumidityWidgetComponent,
+        TemperatureWidgetComponent
     ],
     providers: [
         WeatherService,

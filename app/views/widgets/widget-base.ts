@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
 import { RouterExtensions } from "nativescript-angular/router";
 
@@ -7,15 +7,13 @@ import { WeatherService } from "../../services/weather.service";
 import { CouchbaseService } from "../../services/couchbase.service";
 
 @Component({
-    selector: "ns-current-temp",
-    moduleId: module.id,
-    templateUrl: "./current-temp.component.html",
-    styleUrls: ["./current-temp.component.css"]
+    selector: "ns-base-widget",
+    moduleId: module.id
 })
-export class CurrentTemperatureComponent implements OnInit {
-
-    public temperature: number;
-    private currentWeatherDatabase: any;
+export class WidgetBase implements OnInit  {
+    public value: number;
+    protected currentWeatherDatabase: any;
+    private dbChangeListenerAction: any;
 
     constructor(
         private ngZone: NgZone,
@@ -26,37 +24,29 @@ export class CurrentTemperatureComponent implements OnInit {
             this.currentWeatherDatabase = couchbaseService.getCurrentWeatherDatabase();
 
             this.currentWeatherDatabase.addDatabaseChangeListener((changes) => {
-                console.log("found change");
                 for (var i = 0; i < changes.length; i++) {
                     let documentId = changes[i].getDocumentId();
                     let document = this.currentWeatherDatabase.getDocument(documentId);
                     this.ngZone.run(() => {
-                        this.temperature = document.Temperature;
+                        if (this.dbChangeListenerAction) 
+                            this.dbChangeListenerAction(document);
                     });
                 }
             });
         }
 
     ngOnInit(): void {
-
-        let rows = this.currentWeatherDatabase.executeQuery("weather");
-        if (rows.length > 0) {
-            this.temperature = (<MomentaryWeather>rows[0]).Temperature;
-        }
-        else {
-            this.temperature = 0.0;
-        }
+        let data = this.getCurrentWeather();
+        if (this.dbChangeListenerAction) this.dbChangeListenerAction(data);        
     }
 
-    private indexOfObjectId(needle: string, haystack: any) {
-        for (var i = 0; i < haystack.length; i++) {
-            if (haystack[i] != undefined && haystack[i].hasOwnProperty("_id")) {
-                if (haystack[i]._id == needle) {
-                    return i;
-                }
-            }
-        }
-        return -1;
+    protected registerDbChangeListenerAction(callback: any) {
+        this.dbChangeListenerAction = callback;
     }
 
+    private getCurrentWeather(): MomentaryWeather {
+        let data = this.currentWeatherDatabase.executeQuery("weather");
+        if (data.length > 0) return data[0];
+        return null;
+    }
 }
