@@ -13,7 +13,12 @@ Label {
     font-size: 32;
 }
 
-.value {
+.value, 
+.valueDecorator {
     font-size: 80;
     margin-top: 15;
+}
+
+.valueDecorator {
+    font-size: 22;
 }
