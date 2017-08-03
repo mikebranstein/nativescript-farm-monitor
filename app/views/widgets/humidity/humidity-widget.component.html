@@ -1,4 +1,7 @@
 <StackLayout class="wrapper">
     <Label text="Humidity" class="heading"></Label>
-    <Label text="{{ value | number: '1.1-1' }}" class="value"></Label>
+    <StackLayout orientation="horizontal" horizontalAlignment="center">
+        <Label text="{{ (value | number: '1.1-1') }}" class="value"></Label>
+        <Label text="%" class="valueDecorator"></Label>
+    </StackLayout>
 </StackLayout>
