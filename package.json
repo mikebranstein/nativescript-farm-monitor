@@ -30,6 +30,7 @@
 	},
 	"devDependencies": {
 		"nativescript-dev-typescript": "^0.4.6",
+		"tns-platform-declarations": "^3.1.0",
 		"typescript": "~2.2.1"
 	}
 }
