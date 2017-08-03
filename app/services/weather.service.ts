@@ -85,4 +85,24 @@ export class WeatherService {
         return Observable.throw(error);
     }
 
+    convertRadiansToCardinalDirection(radians: number): string {
+        if (radians >= 168.75 && radians < 191.25) return "S";
+        if (radians >= 191.25 && radians < 213.75) return "SSW";
+        if (radians >= 213.75 && radians < 236.25) return "SW";
+        if (radians >= 236.25 && radians < 258.75) return "WSW";
+        if (radians >= 258.75 && radians < 281.25) return "W";
+        if (radians >= 281.25 && radians < 303.75) return "WNW";
+        if (radians >= 303.75 && radians < 326.25) return "NW";
+        if (radians >= 326.25 && radians < 348.75) return "NNW";
+        if (radians >= 348.75 || radians < 11.25) return "N";
+        if (radians >= 11.25 && radians < 33.75) return "NNE";
+        if (radians >= 33.75 && radians < 56.25) return "NE";
+        if (radians >= 56.25 && radians < 78.75) return "ENE";
+        if (radians >= 78.75 && radians < 101.25) return "E";
+        if (radians >= 101.25 && radians < 123.75) return "ESE";
+        if (radians >= 123.75 && radians < 146.25) return "SE";
+        if (radians >= 146.25 && radians < 168.75) return "SSE";
+        return "N";
+    }
+
 }

@@ -14,6 +14,7 @@ import { TemperatureWidgetComponent } from "./views/widgets/temperature/temperat
 import { PressureWidgetComponent } from "./views/widgets/pressure/pressure-widget.component";
 import { SoilTemperatureWidgetComponent } from "./views/widgets/soil-temperature/soil-temperature-widget.component";
 import { SoilMoistureWidgetComponent } from "./views/widgets/soil-moisture/soil-moisture-widget.component";
+import { WindWidgetComponent } from "./views/widgets/wind/wind-widget.component";
 
 import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/angular";
 
@@ -35,7 +36,8 @@ import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/ang
         TemperatureWidgetComponent,
         PressureWidgetComponent,
         SoilTemperatureWidgetComponent,
-        SoilMoistureWidgetComponent
+        SoilMoistureWidgetComponent,
+        WindWidgetComponent
     ],
     providers: [
         WeatherService,

@@ -1,0 +1,7 @@
+<StackLayout class="wrapper">
+    <Label text="Wind" class="heading"></Label>
+    <StackLayout orientation="horizontal" horizontalAlignment="center">
+        <Label text="{{ (value | number: '1.1-1') }}" class="value"></Label>
+        <Label text=" mph {{ windDirection }}" class="valueDecorator"></Label>
+    </StackLayout>
+</StackLayout>

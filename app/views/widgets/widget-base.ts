@@ -16,11 +16,11 @@ export class WidgetBase implements OnInit  {
     private dbChangeListenerAction: any;
 
     constructor(
-        private ngZone: NgZone,
-        private location: Location,
-        private routerExtensions: RouterExtensions,
-        private weatherService: WeatherService, 
-        private couchbaseService: CouchbaseService) { 
+        protected ngZone: NgZone,
+        protected location: Location,
+        protected routerExtensions: RouterExtensions,
+        protected weatherService: WeatherService, 
+        protected couchbaseService: CouchbaseService) { 
             this.currentWeatherDatabase = couchbaseService.getCurrentWeatherDatabase();
 
             this.currentWeatherDatabase.addDatabaseChangeListener((changes) => {
