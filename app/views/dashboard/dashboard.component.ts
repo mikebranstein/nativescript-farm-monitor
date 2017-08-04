@@ -1,6 +1,9 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, ViewChild, NgZone } from "@angular/core";
 import { Location } from "@angular/common";
 import { RouterExtensions } from "nativescript-angular/router";
+import { Page } from "ui/page";
+import { topmost } from "ui/frame";
+import { ScrollView, ScrollEventData } from "ui/scroll-view";
 
 import { MomentaryWeather } from "../../models/momentaryWeather";
 import { AggregateWeather } from "../../models/aggregateWeather";
@@ -19,18 +22,21 @@ registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").Pul
 export class DashboardComponent implements OnInit {
 
     private currentWeatherDatabase: any;
+    private iosStatusBarMaskView: UIView;
+    @ViewChild("scroll") scrollView;
 
     constructor(
         private ngZone: NgZone,
         private location: Location,
         private routerExtensions: RouterExtensions,
         private weatherService: WeatherService, 
-        private couchbaseService: CouchbaseService) { 
+        private couchbaseService: CouchbaseService,
+        private page: Page) { 
             this.currentWeatherDatabase = this.couchbaseService.getCurrentWeatherDatabase();
         }
 
     ngOnInit(): void {
-
+        this.initNavBarTransparency();
     }
 
     refresh(args) {
@@ -63,6 +69,18 @@ export class DashboardComponent implements OnInit {
         setTimeout(function () {
             pullRefresh.refreshing = false;
         }, 1000);
+    }
+
+    private initNavBarTransparency() {
+        if (topmost().ios) {
+            let navigationBar = topmost().ios.controller.navigationBar as UINavigationBar;
+            navigationBar.translucent = true;
+            navigationBar.setBackgroundImageForBarMetrics(UIImage.new(), UIBarMetrics.Default);
+            navigationBar.shadowImage = UIImage.new();
+            navigationBar.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, 0.5);
+        }
+
+
     }
 
 }

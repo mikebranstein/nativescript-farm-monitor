@@ -1,4 +1,8 @@
-.base {
-    background-image: url("res://img/locust-interior-bkg");
-    background-repeat: no-repeat;
+ActionBar {
+    color: white;
+    font-family: HelveticaNeueLTPro-Lt;
+}
+
+PullToRefresh {
+    color: white;
 }

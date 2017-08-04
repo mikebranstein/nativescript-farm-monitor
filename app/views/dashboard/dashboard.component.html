@@ -1,6 +1,11 @@
-<PullToRefresh (refresh)="refresh($event)" class="base">
+<ActionBar>
+    <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
+        <Label text="Locust Hill Farm" class="action-label"></Label>
+    </StackLayout>
+</ActionBar>
+<PullToRefresh (refresh)="refresh($event)"> 
     <ScrollView>
-        <StackLayout> 
+        <StackLayout>
             <ns-temperature-widget></ns-temperature-widget>
             <ns-humidity-widget></ns-humidity-widget>
             <ns-pressure-widget></ns-pressure-widget>
