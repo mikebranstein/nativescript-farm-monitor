@@ -1,9 +1,7 @@
-import { Component, OnInit, ViewChild, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone } from "@angular/core";
 import { Location } from "@angular/common";
 import { RouterExtensions } from "nativescript-angular/router";
-import { Page } from "ui/page";
 import { topmost } from "ui/frame";
-import { ScrollView, ScrollEventData } from "ui/scroll-view";
 
 import { MomentaryWeather } from "../../models/momentaryWeather";
 import { AggregateWeather } from "../../models/aggregateWeather";
@@ -12,6 +10,8 @@ import { CouchbaseService } from "../../services/couchbase.service";
 
 import { registerElement } from "nativescript-angular/element-registry";
 registerElement("PullToRefresh", () => require("nativescript-pulltorefresh").PullToRefresh);
+
+import { TNSFontIconService } from 'nativescript-ng2-fonticon';
 
 @Component({
     selector: "ns-dashboard",
@@ -23,7 +23,6 @@ export class DashboardComponent implements OnInit {
 
     private currentWeatherDatabase: any;
     private iosStatusBarMaskView: UIView;
-    @ViewChild("scroll") scrollView;
 
     constructor(
         private ngZone: NgZone,
@@ -31,7 +30,7 @@ export class DashboardComponent implements OnInit {
         private routerExtensions: RouterExtensions,
         private weatherService: WeatherService, 
         private couchbaseService: CouchbaseService,
-        private page: Page) { 
+        private fonticon: TNSFontIconService) { 
             this.currentWeatherDatabase = this.couchbaseService.getCurrentWeatherDatabase();
         }
 

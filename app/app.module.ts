@@ -17,6 +17,8 @@ import { SoilMoistureWidgetComponent } from "./views/widgets/soil-moisture/soil-
 import { WindWidgetComponent } from "./views/widgets/wind/wind-widget.component";
 import { RainWidgetComponent } from "./views/widgets/rain/rain-widget.component";
 
+import { TNSFontIconModule } from 'nativescript-ng2-fonticon';
+
 import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/angular";
 
 @NgModule({
@@ -27,7 +29,10 @@ import { NativeScriptUIChartModule } from "nativescript-telerik-ui-pro/chart/ang
         NativeScriptModule,
         AppRoutingModule,
         NativeScriptHttpModule,
-        NativeScriptUIChartModule
+        NativeScriptUIChartModule,
+        TNSFontIconModule.forRoot({
+			'fa': './assets/font-awesome.min.css'
+		})
     ],
     declarations: [
         AppComponent,

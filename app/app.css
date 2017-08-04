@@ -15,3 +15,7 @@ Page {
     background-image: url("res://img/locust-interior-bkg");
     background-repeat: no-repeat;
 }
+
+.fa {
+  font-family: FontAwesome, fontawesome-webfont;
+}
