@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
     }
 
     refresh(args) {
-        var pullRefresh = args.object;
+        let pullRefresh = args.object;
 
         let rows = this.currentWeatherDatabase.executeQuery("weather");
 
@@ -76,11 +76,13 @@ export class DashboardComponent implements OnInit {
                         };
                     this.currentWeatherDatabase.updateDocument(documentId, doc);
                 });
+            }, () => { // error
+                pullRefresh.refreshing = false;
+            }, () => { // completed 
+                setTimeout(() => {
+                    pullRefresh.refreshing = false;
+                }, 500);
             });
-
-        setTimeout(function () {
-            pullRefresh.refreshing = false;
-        }, 1000);
     }
 
     private dbChangeListenerAction(data: MomentaryWeather) {
