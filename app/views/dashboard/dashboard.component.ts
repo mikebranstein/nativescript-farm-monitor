@@ -23,6 +23,8 @@ export class DashboardComponent implements OnInit {
 
     private currentWeatherDatabase: any;
     private iosStatusBarMaskView: UIView;
+    batteryLevelIcon: string;
+    batteryLevel: number;
 
     constructor(
         private ngZone: NgZone,
@@ -32,6 +34,17 @@ export class DashboardComponent implements OnInit {
         private couchbaseService: CouchbaseService,
         private fonticon: TNSFontIconService) { 
             this.currentWeatherDatabase = this.couchbaseService.getCurrentWeatherDatabase();
+
+            this.currentWeatherDatabase.addDatabaseChangeListener((changes) => {
+                for (var i = 0; i < changes.length; i++) {
+                    let documentId = changes[i].getDocumentId();
+                    let document = this.currentWeatherDatabase.getDocument(documentId);
+                    this.ngZone.run(() => {
+                        if (this.dbChangeListenerAction) 
+                            this.dbChangeListenerAction(document);
+                    });
+                }
+            });
         }
 
     ngOnInit(): void {
@@ -70,6 +83,21 @@ export class DashboardComponent implements OnInit {
         }, 1000);
     }
 
+    private dbChangeListenerAction(data: MomentaryWeather) {
+        if (data) {
+            this.batteryLevel = data.DeviceStateOfCharge;
+            if (data.DeviceStateOfCharge > 80.0) this.batteryLevelIcon = "fa-battery-4";
+            if (data.DeviceStateOfCharge > 60.0 && data.DeviceStateOfCharge <= 80.0) this.batteryLevelIcon = "fa-battery-3";
+            if (data.DeviceStateOfCharge > 40.0 && data.DeviceStateOfCharge <= 60.0) this.batteryLevelIcon = "fa-battery-2";
+            if (data.DeviceStateOfCharge > 20.0 && data.DeviceStateOfCharge <= 40.0) this.batteryLevelIcon = "fa-battery-1";
+            if (data.DeviceStateOfCharge > 60.0 && data.DeviceStateOfCharge <= 20.0) this.batteryLevelIcon = "fa-battery-0";
+        }
+        else {
+            this.batteryLevel = 0.0;
+            this.batteryLevelIcon = "fa-battery-0";
+        }
+    }
+
     private initNavBarTransparency() {
         if (topmost().ios) {
             let navigationBar = topmost().ios.controller.navigationBar as UINavigationBar;
@@ -78,8 +106,6 @@ export class DashboardComponent implements OnInit {
             navigationBar.shadowImage = UIImage.new();
             navigationBar.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, 0.5);
         }
-
-
     }
 
 }

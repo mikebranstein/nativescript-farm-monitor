@@ -1,7 +1,11 @@
 <ActionBar>
-    <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
-        <Label text="Locust Hill Farm {{ 'fa-bluetooth' | fonticon }}" class="action-label fa"></Label>
-    </StackLayout>
+    <GridLayout columns="*,auto">
+        <StackLayout col="0" orientation="horizontal">
+            <Image src="res://img/logosm" width="40"></Image>
+            <Label text=" Locust Hill Farm" class="action-label"></Label>            
+        </StackLayout>
+        <Label col="1" text="{{ (batteryLevelIcon | fonticon) + ' ' + (batteryLevel | number: '1.0-0') + '%' }}" class="fa action-label battery"></Label>
+    </GridLayout>
 </ActionBar>
 <PullToRefresh (refresh)="refresh($event)"> 
     <ScrollView>

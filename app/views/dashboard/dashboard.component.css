@@ -1,8 +1,12 @@
 ActionBar {
     color: white;
-    font-family: HelveticaNeueLTPro-Lt;
+    margin-right: 15;
 }
 
 PullToRefresh {
     color: white;
+}
+
+.battery {
+    text-align: right;
 }
