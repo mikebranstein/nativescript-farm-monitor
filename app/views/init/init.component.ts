@@ -29,34 +29,8 @@ export class InitComponent implements OnInit {
 
     ngOnInit() : void {
 
-        // load current weather data
-        let count = this.currentWeatherDatabase.executeQuery("weather").length;
-        if (count === 0) {
-            this.weatherService.getCurrentWeather()
-                .subscribe((data) => {
-                    data.forEach((x) => {
-                        this.currentWeatherDatabase.createDocument(
-                            {
-                                "DeviceId": x.DeviceId,
-                                "PublishDate": x.PublishDate.toString(),
-                                "Humidity": x.Humidity,
-                                "Temperature": x.Temperature,
-                                "Pressure": x.Pressure,
-                                "SoilMoisture": x.SoilMoisture,
-                                "SoilTemperature": x.SoilTemperature,
-                                "WindSpeedMPH": x.WindSpeedMPH,
-                                "WindDirection": x.WindDirection,
-                                "RainInInches": x.RainInInches,
-                                "DeviceVoltage": x.DeviceVoltage,
-                                "DeviceStateOfCharge": x.DeviceStateOfCharge
-                            }
-                        );
-                    });
-                });
-        }
-
-        // load aggregate weather data, at first by hour
-        count = this.aggregateWeatherDatabase.executeQuery("weather").length;
+         // load aggregate weather data, at first by hour
+        let count = this.aggregateWeatherDatabase.executeQuery("weather").length;
         if (count === 0) {
             this.weatherService.getWeatherByHour()
                 .subscribe((data) => {
@@ -83,6 +57,38 @@ export class InitComponent implements OnInit {
                 });
         }
 
+        // load current weather data
+        count = this.currentWeatherDatabase.executeQuery("weather").length;
+        if (count === 0) {
+            this.weatherService.getCurrentWeather()
+                .subscribe((data) => {
+                    data.forEach((x) => {
+                        this.currentWeatherDatabase.createDocument(
+                            {
+                                "DeviceId": x.DeviceId,
+                                "PublishDate": x.PublishDate.toString(),
+                                "Humidity": x.Humidity,
+                                "Temperature": x.Temperature,
+                                "Pressure": x.Pressure,
+                                "SoilMoisture": x.SoilMoisture,
+                                "SoilTemperature": x.SoilTemperature,
+                                "WindSpeedMPH": x.WindSpeedMPH,
+                                "WindDirection": x.WindDirection,
+                                "RainInInches": x.RainInInches,
+                                "DeviceVoltage": x.DeviceVoltage,
+                                "DeviceStateOfCharge": x.DeviceStateOfCharge
+                            }
+                        );
+                    });
+                },() => { // error
+                    this.navigateToDashboard();
+                }, () => { // completed 
+                    this.navigateToDashboard();
+                });
+        }
+    }
+
+    private navigateToDashboard() {
         let options: NavigationOptions = { 
             clearHistory: true               
         };    
