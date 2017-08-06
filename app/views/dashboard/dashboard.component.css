@@ -10,3 +10,10 @@ PullToRefresh {
 .battery {
     text-align: right;
 }
+
+.footer {
+    color: white;
+    padding-left: 15;
+    padding-right: 15;
+    height: 50;
+}

@@ -1,7 +1,8 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, ViewChild, NgZone, ElementRef } from "@angular/core";
 import { Location } from "@angular/common";
 import { RouterExtensions } from "nativescript-angular/router";
-import { topmost } from "ui/frame";
+import { topmost } from "ui/frame"; 
+import { StackLayout } from "ui/layouts/stack-layout";
 
 import { MomentaryWeather } from "../../models/momentaryWeather";
 import { AggregateWeather } from "../../models/aggregateWeather";
@@ -21,10 +22,14 @@ import { TNSFontIconService } from 'nativescript-ng2-fonticon';
 })
 export class DashboardComponent implements OnInit {
 
+    @ViewChild("footer") footerStackLayout: ElementRef;
+
     private currentWeatherDatabase: any;
     private iosStatusBarMaskView: UIView;
+    
     batteryLevelIcon: string;
     batteryLevel: number;
+    lastUpdated: Date;
 
     constructor(
         private ngZone: NgZone,
@@ -49,6 +54,7 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit(): void {
         this.initNavBarTransparency();
+        this.initFooterTransparency();
     }
 
     refresh(args) {
@@ -87,16 +93,21 @@ export class DashboardComponent implements OnInit {
 
     private dbChangeListenerAction(data: MomentaryWeather) {
         if (data) {
+            // update battery data
             this.batteryLevel = data.DeviceStateOfCharge;
             if (data.DeviceStateOfCharge > 80.0) this.batteryLevelIcon = "fa-battery-4";
             if (data.DeviceStateOfCharge > 60.0 && data.DeviceStateOfCharge <= 80.0) this.batteryLevelIcon = "fa-battery-3";
             if (data.DeviceStateOfCharge > 40.0 && data.DeviceStateOfCharge <= 60.0) this.batteryLevelIcon = "fa-battery-2";
             if (data.DeviceStateOfCharge > 20.0 && data.DeviceStateOfCharge <= 40.0) this.batteryLevelIcon = "fa-battery-1";
             if (data.DeviceStateOfCharge > 60.0 && data.DeviceStateOfCharge <= 20.0) this.batteryLevelIcon = "fa-battery-0";
+
+            // update last updated date
+            this.lastUpdated = new Date(data.PublishDate);
         }
         else {
             this.batteryLevel = 0.0;
             this.batteryLevelIcon = "fa-battery-0";
+            this.lastUpdated = new Date();
         }
     }
 
@@ -107,6 +118,14 @@ export class DashboardComponent implements OnInit {
             navigationBar.setBackgroundImageForBarMetrics(UIImage.new(), UIBarMetrics.Default);
             navigationBar.shadowImage = UIImage.new();
             navigationBar.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, 0.5);
+        }
+    }
+
+    private initFooterTransparency() {
+        if (topmost().ios) {
+            let footerUIView = (<UIView> (<StackLayout> this.footerStackLayout.nativeElement).nativeView);
+            footerUIView.opaque = false;
+            footerUIView.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, 0.5);
         }
     }
 
