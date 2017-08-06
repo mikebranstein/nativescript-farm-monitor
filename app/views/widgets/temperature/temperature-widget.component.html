@@ -1,4 +1,4 @@
-<StackLayout class="wrapper">
+<StackLayout class="wrapper" (tap)="onTap($event)">
     <Label text="Temperature" class="heading"></Label>
     <Label text="{{ (value | number: '1.1-1') + '&deg;' }}" class="value"></Label>
 </StackLayout>

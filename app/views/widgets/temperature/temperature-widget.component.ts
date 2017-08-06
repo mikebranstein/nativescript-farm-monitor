@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from "@angular/core";
 import { Location } from "@angular/common";
 import { RouterExtensions } from "nativescript-angular/router";
+import { NavigationOptions } from "nativescript-angular/router/ns-location-strategy"; 
 
 import { WidgetBase } from "../widget-base";
 
@@ -36,5 +37,12 @@ export class TemperatureWidgetComponent extends WidgetBase implements OnInit {
         else {
             this.value = 0.0;
         }
+    }
+
+    private onTap(e) : void {
+       let options: NavigationOptions = { 
+            clearHistory: false            
+        };    
+        this.routerExtensions.navigate(["temperature"], options);
     }
 }

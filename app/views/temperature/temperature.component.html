@@ -1,0 +1,10 @@
+<StackLayout>
+    <RadCartesianChart tkExampleTitle tkToggleNavButton height="200">
+        <DateTimeContinuousAxis tkCartesianHorizontalAxis 
+            majorStep="Hour"
+            [minimum]="minRange" [maximum]="maxRange" >
+        </DateTimeContinuousAxis>
+        <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+        <SplineSeries tkCartesianSeries [items]="dataSource" categoryProperty="PublishDate" valueProperty="AverageTemperature"></SplineSeries>
+    </RadCartesianChart>
+</StackLayout>

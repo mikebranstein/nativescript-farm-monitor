@@ -4,11 +4,13 @@ import { Routes } from "@angular/router";
 
 import { InitComponent } from "./views/init/init.component";
 import { DashboardComponent } from "./views/dashboard/dashboard.component";
+import { TemperatureComponent } from "./views/temperature/temperature.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/init", pathMatch: "full" },
     { path: "init", component: InitComponent },
-    { path: "dashboard", component: DashboardComponent }
+    { path: "dashboard", component: DashboardComponent },
+    { path: "temperature", component: TemperatureComponent }
 ];
 
 @NgModule({
