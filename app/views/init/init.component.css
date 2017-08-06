@@ -2,3 +2,7 @@
     background-image: url("res://img/locust-interior-bkg");
     background-repeat: no-repeat;
 }
+
+ActivityIndicator {
+    color: white;
+}
