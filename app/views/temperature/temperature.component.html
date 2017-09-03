@@ -1,10 +1,30 @@
 <StackLayout>
-    <RadCartesianChart tkExampleTitle tkToggleNavButton height="200">
+    <RadCartesianChart #test tkExampleTitle tkToggleNavButton height="200" backgroundColor="#666666">
+        <RadCartesianChartGrid 
+            tkCartesianGrid 
+            horizontalLinesVisible="false"
+            verticalLinesVisible="false" 
+            horizontalStripLinesVisible="true"
+            horizontalStripLineColor="#666666"
+            verticalStripLinesVisible="false">
+        </RadCartesianChartGrid>
         <DateTimeContinuousAxis tkCartesianHorizontalAxis 
             majorStep="Hour"
-            [minimum]="minRange" [maximum]="maxRange" >
+            [minimum]="minRange" [maximum]="maxRange">
         </DateTimeContinuousAxis>
         <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-        <SplineSeries tkCartesianSeries [items]="dataSource" categoryProperty="PublishDate" valueProperty="AverageTemperature"></SplineSeries>
+        <SplineSeries 
+            tkCartesianSeries 
+            [items]="dataSource" 
+            categoryProperty="PublishDate" 
+            valueProperty="Temperature"
+            showLabels="true">
+            <PointLabelStyle
+                tkSplineLabelStyle
+                margin="10"
+                textFormat="%.0f"
+                textColor="#ffffff">
+            </PointLabelStyle>
+        </SplineSeries>
     </RadCartesianChart>
 </StackLayout>

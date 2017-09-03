@@ -40,9 +40,9 @@ export class TemperatureWidgetComponent extends WidgetBase implements OnInit {
     }
 
     private onTap(e) : void {
-       let options: NavigationOptions = { 
-            clearHistory: false            
-        };    
-        this.routerExtensions.navigate(["temperature"], options);
+    //    let options: NavigationOptions = { 
+    //         clearHistory: false            
+    //     };    
+    //     this.routerExtensions.navigate(["temperature"], options);
     }
 }

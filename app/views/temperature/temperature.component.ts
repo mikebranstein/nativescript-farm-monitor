@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, ViewChild, NgZone } from "@angular/core";
 import { Location } from "@angular/common";
 import { ObservableArray } from "tns-core-modules/data/observable-array";
 
@@ -19,6 +19,7 @@ export class TemperatureComponent implements OnInit {
     private aggregateWeatherDatabase: any;
     minRange: Date;
     maxRange: Date;
+    @ViewChild("test") chart: any;
 
     constructor(
         private ngZone: NgZone,
@@ -47,7 +48,7 @@ export class TemperatureComponent implements OnInit {
             <Array<AggregateWeather>> this.aggregateWeatherDatabase
                 .executeQuery("weather")
                 .sort(function(a,b) {
-                    return new Date(b.PublishDate).getTime() - new Date(a.PublishDate).getTime();
+                    return new Date(a.PublishDate).getTime() - new Date(b.PublishDate).getTime();
                 });
         for(let i = 0; i < rows.length; i++) {
             this.data.push(new Temperature(
