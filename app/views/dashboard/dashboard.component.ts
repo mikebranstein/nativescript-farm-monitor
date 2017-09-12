@@ -114,10 +114,7 @@ export class DashboardComponent implements OnInit {
     private initNavBarTransparency() {
         if (topmost().ios) {
             let navigationBar = topmost().ios.controller.navigationBar as UINavigationBar;
-            navigationBar.translucent = true;
-            navigationBar.setBackgroundImageForBarMetrics(UIImage.new(), UIBarMetrics.Default);
-            navigationBar.shadowImage = UIImage.new();
-            navigationBar.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, 0.5);
+            navigationBar.barStyle = UIBarStyle.BlackTranslucent;
         }
     }
 
